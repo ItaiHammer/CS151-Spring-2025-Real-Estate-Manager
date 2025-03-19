@@ -8,6 +8,7 @@ public class ApartmentBuilding extends RealEstate {
     @Override
     public void setIsForSale() {
 
+    	//hello
     }
 
     

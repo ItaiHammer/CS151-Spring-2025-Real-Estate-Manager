@@ -7,8 +7,8 @@ public class Land {
         occupiedBy = null;
     }
 
-    public void setOccupiedBy(OccupiesLand p) {
-        occupiedBy = p;
+    public void setOccupiedBy(OccupiesLand o) {
+        occupiedBy = o;
     }
 
     public OccupiesLand getOccupiedBy() {

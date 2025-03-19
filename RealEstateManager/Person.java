@@ -1,3 +1,5 @@
+package RealEstateManager;
+
 abstract class Person {
     private String name;
     private BankAccount bank;

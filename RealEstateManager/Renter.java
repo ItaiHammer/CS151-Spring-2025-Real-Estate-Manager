@@ -1,3 +1,5 @@
+package RealEstateManager;
+
 public class Renter extends Person{
 
     public Renter(String name, BankAccount bank) {

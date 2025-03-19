@@ -1,3 +1,5 @@
+package RealEstateManager;
+
 import java.util.ArrayList;
 
 public class RealEstateOwner extends Person {

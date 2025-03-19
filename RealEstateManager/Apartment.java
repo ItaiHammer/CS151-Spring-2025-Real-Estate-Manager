@@ -1,3 +1,5 @@
+package RealEstateManager;
+
 public class Apartment {
     private int unit;
     private int floor;

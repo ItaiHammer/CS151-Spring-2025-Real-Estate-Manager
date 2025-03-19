@@ -1,3 +1,5 @@
+package RealEstateManager;
+
 public class ApartmentBuilding extends RealEstate {
     private Apartment[][] apartments;
     

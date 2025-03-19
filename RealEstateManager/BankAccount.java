@@ -1,3 +1,5 @@
+package RealEstateManager;
+
 public class BankAccount {
     private double balance;
 

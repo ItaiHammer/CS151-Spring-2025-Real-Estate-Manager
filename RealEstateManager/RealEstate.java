@@ -53,6 +53,10 @@ public abstract class RealEstate {
     public String getAddress() {
         return address;
     }
+    
+    public void setAddress(String newAddress) {
+    	this.address = newAddress;
+    }
 
     public int[] getLocation() {
         return new int[]{topLeftX, topLeftY};

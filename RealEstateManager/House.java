@@ -1,30 +1,13 @@
 package RealEstateManager;
 
-public class House extends RealEstate implements OccupiesLand {
+public class House extends RealEstate implements OccupiesLand, Rentable {
 	
 	
 
     public House(City city, String address, double price, int width, int height, RealEstateOwner owner) {
         super(city, address, price, width, height, owner);
-        forSale = false;
         
     }
-    
-    @Override
-    public void setIsForSale() {
-    	forSale = true;
-    }
-    
-    @Override
-    public void setNotForSale() {
-    	forSale = false;
-    }
-    
-    @Override
-    public boolean isForSale() {
-    	return super.forSale;
-    }
-    
     
     //changes the width and height of the house by modifying the width and height, removing the property, and adding the property
     //saves initial width and height to reset the property if expansion fails
@@ -32,10 +15,10 @@ public class House extends RealEstate implements OccupiesLand {
     @Override
     public boolean expand(int x, int y) {
     	
-    	int oldWidth = width;
-    	int oldHeight = height;
-    	width = x;
-    	height = y;
+    	int oldWidth = getWidth();
+    	int oldHeight = getHeight();
+    	this.setWidth(x);
+    	this.setHeight(y);
     	int[] location = this.getLocation();
     	
     	City city = this.getCity();
@@ -43,13 +26,18 @@ public class House extends RealEstate implements OccupiesLand {
     	city.removeProperty(location[0], location[1]);
     	
     	if(!city.addProperty(this, location[0], location[1])) {
-    		width = oldWidth;
-    		height = oldHeight;
+    		this.setWidth(oldWidth);
+        	this.setHeight(oldHeight);
     		city.addProperty(this, location[0], location[1]);
     		return false;
     	}
     	
     	return true;
+    }
+    
+    @Override
+    public double getRent() {
+    	return this.getPrice()/100;
     }
     
 }

@@ -4,13 +4,16 @@ public abstract class RealEstate {
     private City city;
     private String address;
     private double price;
-    protected int width, height;
+    private int width, height;
     private RealEstateOwner owner;
-    protected boolean forSale;
-    protected boolean forRent;
+    private boolean forSale;
+    private boolean forRent;
     private Renter renter;
     private int topLeftX;
     private int topLeftY;
+    private boolean hasYard;
+    private boolean hasPool;
+    private String style;
 
     public RealEstate(City city, String address, double price, int width, int height, RealEstateOwner owner) {
         this.city = city;
@@ -21,6 +24,9 @@ public abstract class RealEstate {
         this.owner = owner;
         this.forSale = false;
         this.forRent = false;
+        this.hasYard = false;
+        this.hasPool = false;
+        this.style = "unknown";
     }
 
     public void setOwner(RealEstateOwner owner) {
@@ -32,16 +38,34 @@ public abstract class RealEstate {
         return owner;
     }
 
-    public abstract boolean isForSale();
-
-    public abstract void setIsForSale(); 
+    public void setIsForSale() {
+    	forSale = true;
+    }
     
-    public abstract void setNotForSale(); 
-
-    public double getPrice() {
-        return price;
+    public void setNotForSale() {
+    	forSale = false;
     }
 
+    public boolean isForSale() {
+    	return forSale;
+    }
+    
+    public void setIsForRent() {
+    	forRent = true;
+    }
+    
+    public void setNotForRent() {
+    	forRent = false;
+    }
+
+    public boolean isForRent() {
+    	return forRent;
+    }
+    
+    public double getPrice() {
+		return price;
+	}
+    
     public int getArea() {
         return width * height;
     }
@@ -53,9 +77,21 @@ public abstract class RealEstate {
     public int getHeight() {
         return height;
     }
+    
+    public void setWidth(int width) {
+		this.width = width;
+	}
+    
+    public void setHeight(int height) {
+		this.height = height;
+	}
 
     public String getAddress() {
         return address;
+    }
+    
+    public void setAddress(String newAddress) {
+    	this.address = newAddress;
     }
 
     public int[] getLocation() {
@@ -79,7 +115,33 @@ public abstract class RealEstate {
         return city;
     }
 
-    public abstract boolean expand(int x, int y);
+    public void setForRent(boolean forRent) {
+        this.forRent = forRent;
+    }
+
+    public boolean hasYard() {
+        return hasYard;
+    }
+
+    public void setHasYard(boolean hasYard) {
+        this.hasYard = hasYard;
+    }
+
+    public boolean hasPool() {
+        return hasPool;
+    }
+
+    public void setHasPool(boolean hasPool) {
+        this.hasPool = hasPool;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
     public String toString() {
         return "RealEstate{" +
@@ -94,6 +156,11 @@ public abstract class RealEstate {
                 ", renter=" + renter +
                 ", topLeftX=" + topLeftX +
                 ", topLeftY=" + topLeftY +
+                ", hasYard=" + hasYard +
+                ", hasPool=" + hasPool +
+                ", style='" + style + '\'' +
                 '}';
     }
+
+	public abstract boolean expand(int x, int y);
 }

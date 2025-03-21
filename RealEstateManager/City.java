@@ -1,5 +1,10 @@
 package RealEstateManager;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class City {
     private String name;
     private Land[][] grid;
@@ -102,11 +107,31 @@ public class City {
         return null;
     }
 
+    public Set<RealEstate> searchProperties(SearchCriteria criteria) {
+        Set<RealEstate> results = new HashSet<>();
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                RealEstate r = (RealEstate) grid[i][j].getOccupiedBy();
+
+                if (r != null && !results.contains(r) &&
+                    (criteria.getMaxPrice() == null || r.getPrice() <= criteria.getMaxPrice()) &&
+                    (criteria.getMinSize() == null || r.getArea() >= criteria.getMinSize()) &&
+                    (criteria.getForSale() == null || r.isForSale() == criteria.getForSale()) &&
+                    (criteria.getForRent() == null || r.isForRent() == criteria.getForRent()) &&
+                    (criteria.getHasYard() == null || r.hasYard() == criteria.getHasYard()) &&
+                    (criteria.getHasPool() == null || r.hasPool() == criteria.getHasPool()) &&
+                    (criteria.getStyle() == null || r.getStyle().equals(criteria.getStyle()))) {
+                    results.add(r);
+                }
+            }
+        }
+
+        return results;
+    }
+
     @Override
     public String toString() {
         return "City{name='" + name + "'}";
     }
-
-    // we'll figure it out later
-    // public OccupiesLand[] searchProperties() {}
 }

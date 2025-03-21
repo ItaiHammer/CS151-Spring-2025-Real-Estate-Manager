@@ -107,16 +107,6 @@ public abstract class RealEstate {
         return city;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public abstract boolean expand(int x, int y);
-
-    public boolean isForRent() {
-        return forRent;
-    }
-
     public void setForRent(boolean forRent) {
         this.forRent = forRent;
     }
@@ -163,4 +153,6 @@ public abstract class RealEstate {
                 ", style='" + style + '\'' +
                 '}';
     }
+
+	public abstract boolean expand(int x, int y);
 }

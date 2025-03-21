@@ -11,6 +11,9 @@ public abstract class RealEstate {
     private Renter renter;
     private int topLeftX;
     private int topLeftY;
+    private boolean hasYard;
+    private boolean hasPool;
+    private String style;
 
     public RealEstate(City city, String address, double price, int width, int height, RealEstateOwner owner) {
         this.city = city;
@@ -21,6 +24,9 @@ public abstract class RealEstate {
         this.owner = owner;
         this.forSale = false;
         this.forRent = false;
+        this.hasYard = false;
+        this.hasPool = false;
+        this.style = "unknown";
     }
 
     public void setOwner(RealEstateOwner owner) {
@@ -71,7 +77,43 @@ public abstract class RealEstate {
         return city;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
     public abstract boolean expand(int x, int y);
+
+    public boolean isForRent() {
+        return forRent;
+    }
+
+    public void setForRent(boolean forRent) {
+        this.forRent = forRent;
+    }
+
+    public boolean hasYard() {
+        return hasYard;
+    }
+
+    public void setHasYard(boolean hasYard) {
+        this.hasYard = hasYard;
+    }
+
+    public boolean hasPool() {
+        return hasPool;
+    }
+
+    public void setHasPool(boolean hasPool) {
+        this.hasPool = hasPool;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
     public String toString() {
         return "RealEstate{" +
@@ -86,6 +128,9 @@ public abstract class RealEstate {
                 ", renter=" + renter +
                 ", topLeftX=" + topLeftX +
                 ", topLeftY=" + topLeftY +
+                ", hasYard=" + hasYard +
+                ", hasPool=" + hasPool +
+                ", style='" + style + '\'' +
                 '}';
     }
 }

@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Test;
 import RealEstateManager.City;
 import RealEstateManager.House;
 import RealEstateManager.ApartmentBuilding;
+import RealEstateManager.SearchCriteria;
+import RealEstateManager.RealEstate;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -120,7 +124,50 @@ public class CityTest {
         ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
         ApartmentBuilding building2 = new ApartmentBuilding("125 Elm St", 300000, 4, 4, null, 2, 2);
         city.addProperty(building, 2, 2);
-        assertEquals(5, building.getWidth());
-        assertEquals(5, building.getHeight());
+        city.addProperty(building2, 6, 0);
+
+        SearchCriteria criteria = new SearchCriteria();
+        criteria.setMaxPrice(400000.0);
+
+        Set<RealEstate> results = city.searchProperties(criteria);
+        assertEquals(1, results.size());
+        assertTrue(results.contains(building2));
+    }
+
+    @Test
+    public void testSearchPropertiesByStyle() {
+        City city = new City("TestCity", 10, 10);
+        House house = new House(city, "123 Main St", 100000, 2, 2, null);
+        house.setStyle("Victorian");
+        ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
+        building.setStyle("Modern");
+        city.addProperty(house, 0, 0);
+        city.addProperty(building, 2, 2);
+
+        SearchCriteria criteria = new SearchCriteria();
+        criteria.setStyle("Victorian");
+
+        Set<RealEstate> results = city.searchProperties(criteria);
+        assertEquals(1, results.size());
+        assertTrue(results.contains(house));
+    }
+
+    @Test
+    public void testSearchPropertiesWithMultipleCriteria() {
+        City city = new City("TestCity", 10, 10);
+        House house = new House(city, "123 Main St", 100000, 2, 2, null);
+        house.setStyle("Victorian");
+        ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
+        building.setStyle("Modern");
+        city.addProperty(house, 0, 0);
+        city.addProperty(building, 2, 2);
+
+        SearchCriteria criteria = new SearchCriteria();
+        criteria.setMaxPrice(200000.0);
+        criteria.setStyle("Victorian");
+
+        Set<RealEstate> results = city.searchProperties(criteria);
+        assertEquals(1, results.size());
+        assertTrue(results.contains(house));
     }
 }

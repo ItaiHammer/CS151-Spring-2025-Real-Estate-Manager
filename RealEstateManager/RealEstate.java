@@ -15,8 +15,7 @@ public abstract class RealEstate {
     private boolean hasPool;
     private String style;
 
-    public RealEstate(City city, String address, double price, int width, int height, RealEstateOwner owner) {
-        this.city = city;
+    public RealEstate(String address, double price, int width, int height, RealEstateOwner owner) {
         this.address = address;
         this.price = price;
         this.width = width;
@@ -141,6 +140,10 @@ public abstract class RealEstate {
 
     public void setStyle(String style) {
         this.style = style;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public String toString() {

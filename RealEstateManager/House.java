@@ -5,7 +5,7 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
 	
 
     public House(City city, String address, double price, int width, int height, RealEstateOwner owner) {
-        super(city, address, price, width, height, owner);
+        super(address, price, width, height, owner);
         
     }
     

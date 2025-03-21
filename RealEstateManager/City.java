@@ -43,8 +43,9 @@ public class City {
             }
         }
 
-        // Set the location of the property
+        // Set the city information
         r.setLocation(x, y);
+        r.setCity(this);
 
         return true;
     }

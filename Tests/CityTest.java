@@ -86,7 +86,7 @@ public class CityTest {
     @Test
     public void testApartmentBuilding() {
         City city = new City("TestCity", 10, 10);
-        ApartmentBuilding building = new ApartmentBuilding(city, "456 Elm St", 500000, 4, 4, null, 2, 2);
+        ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
         boolean result = city.addProperty(building, 2, 2);
         assertTrue(result);
         assertEquals(building, city.findProperty(2, 2));
@@ -106,10 +106,20 @@ public class CityTest {
     @Test
     public void testExpandApartmentBuilding() {
         City city = new City("TestCity", 10, 10);
-        ApartmentBuilding building = new ApartmentBuilding(city, "456 Elm St", 500000, 4, 4, null, 2, 2);
+        ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
         city.addProperty(building, 2, 2);
         boolean result = building.expand(5, 5);
         assertTrue(result);
+        assertEquals(5, building.getWidth());
+        assertEquals(5, building.getHeight());
+    }
+    
+    @Test
+    public void testSearchPropertiesEasy() {
+        City city = new City("TestCity", 10, 10);
+        ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
+        ApartmentBuilding building2 = new ApartmentBuilding("125 Elm St", 300000, 4, 4, null, 2, 2);
+        city.addProperty(building, 2, 2);
         assertEquals(5, building.getWidth());
         assertEquals(5, building.getHeight());
     }

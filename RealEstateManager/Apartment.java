@@ -6,8 +6,8 @@ public class Apartment extends RealEstate implements Rentable {
     private int floor;
 
     //should only be created by ApartmentBuilding constructor
-    public Apartment(City city, String address, double price, int width, int height, RealEstateOwner owner,  int unit, int floor, ApartmentBuilding apartmentBuilding) {
-        super(city, address, price, width, height, owner);
+    public Apartment(String address, double price, int width, int height, RealEstateOwner owner,  int unit, int floor, ApartmentBuilding apartmentBuilding) {
+        super(address, price, width, height, owner);
         this.apartmentBuilding = apartmentBuilding;
         this.unit = unit;
         this.floor = floor;

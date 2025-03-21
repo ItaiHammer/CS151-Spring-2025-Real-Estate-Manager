@@ -3,14 +3,14 @@ package RealEstateManager;
 public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     private Apartment[][] apartments;
     
-    public ApartmentBuilding(City city, String address, double price, int width, int height, RealEstateOwner owner, int floors, int unitsPerFloor) {
-        super(city, address, price, width, height, owner);
+    public ApartmentBuilding(String address, double price, int width, int height, RealEstateOwner owner, int floors, int unitsPerFloor) {
+        super(address, price, width, height, owner);
         apartments = new Apartment[floors][unitsPerFloor];
         double apartmentPrice = price/floors/unitsPerFloor; //initial price of each apartment
 
         for (int curFloor = 0; curFloor < apartments.length; curFloor++) {
             for (int curUnit = 0; curUnit < apartments[curFloor].length; curUnit++) {
-            	apartments[curFloor][curUnit] = new Apartment(city, address, apartmentPrice, width, height, owner,  curFloor, curUnit, this); //note: first floor is 0
+            	apartments[curFloor][curUnit] = new Apartment(address, apartmentPrice, width, height, owner,  curFloor, curUnit, this); //note: first floor is 0
             }
         }
     }

@@ -38,6 +38,10 @@ public abstract class RealEstate {
     
     public abstract void setNotForSale(); 
 
+    public double getPrice() {
+        return price;
+    }
+
     public int getArea() {
         return width * height;
     }
@@ -56,6 +60,14 @@ public abstract class RealEstate {
 
     public int[] getLocation() {
         return new int[]{topLeftX, topLeftY};
+    }
+
+    public Renter getRenter() {
+        return renter;
+    }
+
+    public void setRenter(Renter renter) {
+        this.renter = renter;
     }
 
     public void setLocation(int x, int y) {

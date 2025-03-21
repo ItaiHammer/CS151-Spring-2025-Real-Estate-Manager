@@ -14,8 +14,16 @@ abstract class Person {
         return name;
     }
 
-    public void setName() {
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public BankAccount getBank() {
+        return bank;
+    }
+
+    public void setBank(BankAccount bank) {
+        this.bank = bank;
     }
 
     public String toString() {

@@ -10,23 +10,9 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
 
         for (int curFloor = 0; curFloor < apartments.length; curFloor++) {
             for (int curUnit = 0; curUnit < apartments[curFloor].length; curUnit++) {
-            	apartments[curFloor][curUnit] = new Apartment(city, address, apartmentPrice, width, height, owner,  curFloor, curUnit); //note: first floor is 0
+            	apartments[curFloor][curUnit] = new Apartment(city, address, apartmentPrice, width, height, owner,  curFloor, curUnit, this); //note: first floor is 0
             }
         }
-    }
-    @Override
-    public void setIsForSale() {
-    	forSale = true;
-    }
-    
-    @Override
-    public void setNotForSale() {
-    	forSale = false;
-    }
-
-    @Override
-    public boolean isForSale() {
-    	return forSale;
     }
     
   //changes the width and height of the apartment building by modifying the width and height, removing the property, and adding the property
@@ -35,10 +21,10 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     @Override
     public boolean expand(int x, int y) {
     	
-    	int oldWidth = width;
-    	int oldHeight = height;
-    	width = x;
-    	height = y;
+    	int oldWidth = getWidth();
+    	int oldHeight = getHeight();
+    	this.setWidth(x);
+    	this.setHeight(y);
     	int[] location = this.getLocation();
     	
     	City city = this.getCity();
@@ -46,13 +32,19 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     	city.removeProperty(location[0], location[1]);
     	
     	if(!city.addProperty(this, location[0], location[1])) {
-    		width = oldWidth;
-    		height = oldHeight;
+    		this.setWidth(oldWidth);
+        	this.setHeight(oldHeight);
     		city.addProperty(this, location[0], location[1]);
     		return false;
     	}
     	
     	return true;
+    }
+    
+    //can't be rented
+    @Override
+    public void setIsForRent() {
+    	return;
     }
     
 }

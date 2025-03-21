@@ -1,7 +1,7 @@
 package RealEstateManager;
 
 public class Renter extends Person {
-    private Apartment apartment;
+    private Rentable property;
 
     public Renter(String name, BankAccount bank) {
         super(name, bank);
@@ -9,18 +9,18 @@ public class Renter extends Person {
 
     public void rentProperty(Apartment apartment) {
         apartment.setRenter(this);
-        this.apartment = apartment;
+        this.property = apartment;
         payRent();
     }
 
     public void payRent() {
-        getBank().withdraw(apartment.getPrice());
-        apartment.getOwner().getBank().deposit(apartment.getPrice());
+        getBank().withdraw(property.getRent());
+        ((RealEstate)property).getOwner().getBank().deposit(property.getRent());
     }
 
     public void terminateLease() {
-        apartment.setRenter(null);
-        this.apartment = null;
+        ((RealEstate)property).setRenter(null);
+        this.property = null;
     }
 
     public String toString() {

@@ -4,10 +4,10 @@ public abstract class RealEstate {
     private City city;
     private String address;
     private double price;
-    protected int width, height;
+    private int width, height;
     private RealEstateOwner owner;
-    protected boolean forSale;
-    protected boolean forRent;
+    private boolean forSale;
+    private boolean forRent;
     private Renter renter;
     private int topLeftX;
     private int topLeftY;
@@ -32,12 +32,34 @@ public abstract class RealEstate {
         return owner;
     }
 
-    public abstract boolean isForSale();
-
-    public abstract void setIsForSale(); 
+    public void setIsForSale() {
+    	forSale = true;
+    }
     
-    public abstract void setNotForSale(); 
+    public void setNotForSale() {
+    	forSale = false;
+    }
 
+    public boolean isForSale() {
+    	return forSale;
+    }
+    
+    public void setIsForRent() {
+    	forRent = true;
+    }
+    
+    public void setNotForRent() {
+    	forRent = false;
+    }
+
+    public boolean isForRent() {
+    	return forRent;
+    }
+    
+    public double getPrice() {
+		return price;
+	}
+    
     public int getArea() {
         return width * height;
     }
@@ -49,6 +71,14 @@ public abstract class RealEstate {
     public int getHeight() {
         return height;
     }
+    
+    public void setWidth(int width) {
+		this.width = width;
+	}
+    
+    public void setHeight(int height) {
+		this.height = height;
+	}
 
     public String getAddress() {
         return address;

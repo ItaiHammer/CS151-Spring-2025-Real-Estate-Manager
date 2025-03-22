@@ -4,10 +4,10 @@ abstract class Person {
     private String name;
     private BankAccount bank;
 
-    public Person(String name, BankAccount bank)
+    public Person(String name)
     {
         this.name = name;
-        this.bank = bank;
+        bank = new BankAccount(1000);
     }
 
     public String getName() {

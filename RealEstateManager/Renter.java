@@ -9,7 +9,7 @@ public class Renter extends Person {
 
     public void rentProperty(Apartment apartment) {
         apartment.setRenter(this);
-        this.property = apartment;
+        this.property = apartment;              
         payRent();
     }
 
@@ -17,7 +17,7 @@ public class Renter extends Person {
         getBank().withdraw(property.getRent());
         ((RealEstate)property).getOwner().getBank().deposit(property.getRent());
     }
-
+    
     public void terminateLease() {
         ((RealEstate)property).setRenter(null);
         this.property = null;

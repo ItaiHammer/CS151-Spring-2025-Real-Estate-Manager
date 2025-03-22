@@ -20,7 +20,7 @@ public class RealEstateOwner extends Person {
         property.setOwner(this);
     }
 
-    public void evictRenter(RealEstate property) {
+    public void terminateContract(RealEstate property) {
         property.getRenter().terminateLease();
     }
 

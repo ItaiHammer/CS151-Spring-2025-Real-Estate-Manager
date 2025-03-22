@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class RealEstateOwner extends Person {
     private ArrayList<RealEstate> properties;
 
-    public RealEstateOwner(String name, BankAccount bank) {
-        super(name, bank);
+    public RealEstateOwner(String name) {
+        super(name);
         properties = new ArrayList<RealEstate>();
     }
 

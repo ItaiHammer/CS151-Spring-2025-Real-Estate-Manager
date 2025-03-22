@@ -166,9 +166,8 @@ public class UI {
 		System.out.println("4. RealEstateAgent");
 		System.out.println("5. House");
 		System.out.println("6. ApartmentBuilding");
-		System.out.println("7. BankAccount");
-		System.out.println("8. return to main Menu");
-		int command = getInput(scanner, 8);
+		System.out.println("7. return to main Menu");
+		int command = getInput(scanner, 7);
 		if(exit) {
 			return;
 		}
@@ -205,11 +204,8 @@ public class UI {
 				if(exit) {
 					return;
 				}
-				BankAccount bankAccount = selectObject(scanner, bankAccounts);
-				if(bankAccount == null) {
-					return;
-				}
-				realEstateOwners.add(new RealEstateOwner(name, bankAccount));
+
+				realEstateOwners.add(new RealEstateOwner(name));
 				
 			}
 			catch (Exception e){
@@ -225,8 +221,8 @@ public class UI {
 				if(exit) {
 					return;
 				}
-				BankAccount bankAccount = selectObject(scanner, bankAccounts);
-				renters.add(new Renter(name, bankAccount));
+				
+				renters.add(new Renter(name));
 				
 			}
 			catch (Exception e){
@@ -343,23 +339,6 @@ public class UI {
 			break;
 			
 		case 7: 
-			System.out.println("Creating BankAccount. Give the balance:");
-			try {
-				String input = scanner.nextLine();
-				exit = checkIfExit(input);
-				if(exit) {
-					return;
-				}
-				double balance = Double.parseDouble(input);
-				bankAccounts.add(new BankAccount(balance));
-				
-			}
-			catch (Exception e){
-				System.out.println("create failed. Invalid details");
-			}
-			break;
-			
-		case 8: 
 			System.out.println("returning to main menu");
 			break;
 		default:

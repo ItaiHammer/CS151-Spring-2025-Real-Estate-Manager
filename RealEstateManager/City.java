@@ -1,8 +1,6 @@
 package RealEstateManager;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class City {
@@ -24,14 +22,18 @@ public class City {
         return grid;
     }
 
-    public boolean addProperty(OccupiesLand o, int x, int y) {
+    public boolean addProperty(OccupiesLand o, int x, int y) throws InvalidPropertyDimensionsException {
         RealEstate r = (RealEstate) o;
+        
+        if (x <= 0 || y <= 0) {
+            throw new InvalidPropertyDimensionsException("Invalid dimensions for adding the property: The width and height must be positive and within the city's grid limits.");
+        }
 
         // checking it doesn't overlap with another property
         for (int i = x; i < x + r.getWidth(); i++) {
             for (int j = y; j < y + r.getHeight(); j++) {
                 if (grid[i][j].getOccupiedBy() != null) {
-                    return false;
+                	throw new InvalidPropertyDimensionsException("Invalid dimensions for adding the property: The new width and height must not overlap another property.");
                 }
             }
         }
@@ -51,25 +53,21 @@ public class City {
     }
 
     public boolean removeProperty(int x, int y) {
-        OccupiesLand o = grid[x][y].getOccupiedBy();
+        try {
+            RealEstate realEstate = findProperty(x, y);
+            int[] location = realEstate.getLocation();
+            int topLeftX = location[0];
+            int topLeftY = location[1];
 
-        if (o == null) {
+            for (int i = topLeftX; i < topLeftX + realEstate.getWidth(); i++) {
+                for (int j = topLeftY; j < topLeftY + realEstate.getHeight(); j++) {
+                    grid[i][j].setOccupiedBy(null);
+                }
+            }
+            return true;
+        } catch (PropertyNotFoundException e) {
             return false;
         }
-
-        RealEstate realEstate = (RealEstate) o;
-
-        int[] location = realEstate.getLocation();
-        int topLeftX = location[0];
-        int topLeftY = location[1];
-
-        for (int i = topLeftX; i < topLeftX + realEstate.getWidth(); i++) {
-            for (int j = topLeftY; j < topLeftY + realEstate.getHeight(); j++) {
-                grid[i][j].setOccupiedBy(null);
-            }
-        }
-
-        return true;
     }
 
     public boolean removeProperty(OccupiesLand o) {
@@ -91,11 +89,15 @@ public class City {
         }
     }
 
-    public RealEstate findProperty(int x, int y) {
-        return (RealEstate) grid[x][y].getOccupiedBy();
+    public RealEstate findProperty(int x, int y) throws PropertyNotFoundException {
+        RealEstate property = (RealEstate) grid[x][y].getOccupiedBy();
+        if (property == null) {
+            throw new PropertyNotFoundException("Property not found at coordinates (" + x + ", " + y + ")");
+        }
+        return property;
     }
 
-    public RealEstate findProperty(String address) {
+    public RealEstate findProperty(String address) throws PropertyNotFoundException {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 RealEstate r = (RealEstate) grid[i][j].getOccupiedBy();
@@ -104,8 +106,7 @@ public class City {
                 }
             }
         }
-
-        return null;
+        throw new PropertyNotFoundException("Property not found with address: " + address);
     }
 
     public Set<RealEstate> searchProperties(SearchCriteria criteria) {

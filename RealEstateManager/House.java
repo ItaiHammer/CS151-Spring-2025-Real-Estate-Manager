@@ -13,13 +13,16 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
     //saves initial width and height to reset the property if expansion fails
     //can expand to smaller widths or heights (assumes not negative)
     @Override
-    public boolean expand(int x, int y) {
-    	
-    	int oldWidth = getWidth();
-    	int oldHeight = getHeight();
-    	this.setWidth(x);
-    	this.setHeight(y);
-    	int[] location = this.getLocation();
+    public boolean expand(int x, int y) throws InvalidPropertyDimensionsException {
+        if (x <= 0 || y <= 0) {
+            throw new InvalidPropertyDimensionsException("Invalid dimensions for expanding the house: The new width and height must be positive and within the city's grid limits.");
+        }
+        
+        int oldWidth = getWidth();
+        int oldHeight = getHeight();
+        this.setWidth(x);
+        this.setHeight(y);
+        int[] location = this.getLocation();
     	
     	City city = this.getCity();
     	
@@ -29,7 +32,7 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
     		this.setWidth(oldWidth);
         	this.setHeight(oldHeight);
     		city.addProperty(this, location[0], location[1]);
-    		return false;
+    		throw new InvalidPropertyDimensionsException("Invalid dimensions for expanding the house: The new width and height must not overlap another property.");
     	}
     	
     	return true;

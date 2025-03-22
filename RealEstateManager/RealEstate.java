@@ -165,5 +165,5 @@ public abstract class RealEstate {
                 '}';
     }
 
-	public abstract boolean expand(int x, int y);
+	public abstract boolean expand(int x, int y) throws InvalidPropertyDimensionsException;
 }

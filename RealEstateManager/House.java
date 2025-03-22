@@ -4,7 +4,7 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
 	
 	
 
-    public House(City city, String address, double price, int width, int height, RealEstateOwner owner) {
+    public House(String address, double price, int width, int height, RealEstateOwner owner) {
         super(address, price, width, height, owner);
         
     }
@@ -38,6 +38,11 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
     @Override
     public double getRent() {
     	return this.getPrice()/100;
+    }
+    @Override
+    public String toString() {
+    	
+    	return "House " + super.toString();
     }
     
 }

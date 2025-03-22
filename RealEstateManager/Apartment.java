@@ -32,4 +32,10 @@ public class Apartment extends RealEstate implements Rentable {
     	return this.getPrice()/100;
     }
     
+    @Override
+    public String toString() {
+    	
+    	return "Apartment "+ " floor=" + floor +
+                ", unit=" + unit + super.toString();
+    }
 }

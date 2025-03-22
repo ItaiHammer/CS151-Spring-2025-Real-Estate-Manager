@@ -47,4 +47,13 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     	return;
     }
     
+    public Apartment getApartment(int floor, int unit) {
+    	return apartments[floor][unit];
+    }
+    
+    @Override
+    public String toString() {
+    	
+    	return "ApartmentBuilding " + super.toString();
+    }
 }

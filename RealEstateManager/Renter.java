@@ -3,10 +3,9 @@ package RealEstateManager;
 public class Renter extends Person {
     private Rentable property;
 
-    public Renter(String name, BankAccount bank) {
-        super(name, bank);
+    public Renter(String name) {
+        super(name);
     }
-
     public void rentProperty(Apartment apartment) {
         apartment.setRenter(this);
         this.property = apartment;              

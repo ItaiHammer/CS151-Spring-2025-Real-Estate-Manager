@@ -8,6 +8,7 @@ import RealEstateManager.SearchCriteria;
 import RealEstateManager.RealEstate;
 import RealEstateManager.PropertyNotFoundException;
 import RealEstateManager.InvalidPropertyDimensionsException;
+import RealEstateManager.PropertyAlreadyExistsException;
 
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class CityTest {
     }
 
     @Test
-    public void testAddProperty() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testAddProperty() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         boolean result = city.addProperty(house, 0, 0);
@@ -32,7 +33,7 @@ public class CityTest {
     }
 
     @Test
-    public void testAddPropertyOverlap() throws InvalidPropertyDimensionsException {
+    public void testAddPropertyOverlap() throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house1 = new House("123 Main St", 100000, 2, 2, null);
         House house2 = new House("456 Elm St", 150000, 2, 2, null);
@@ -42,7 +43,16 @@ public class CityTest {
     }
 
     @Test
-    public void testRemoveProperty() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testAddPropertyAlreadyExists() throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
+        City city1 = new City("TestCity1", 10, 10);
+        City city2 = new City("TestCity2", 10, 10);
+        House house = new House("123 Main St", 100000, 2, 2, null);
+        city1.addProperty(house, 0, 0);
+        assertThrows(PropertyAlreadyExistsException.class, () -> city2.addProperty(house, 1, 1));
+    }
+
+    @Test
+    public void testRemoveProperty() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         city.addProperty(house, 0, 0);
@@ -52,7 +62,7 @@ public class CityTest {
     }
 
     @Test
-    public void testRemovePropertyByObject() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testRemovePropertyByObject() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         city.addProperty(house, 0, 0);
@@ -62,7 +72,7 @@ public class CityTest {
     }
 
     @Test
-    public void testFindPropertyByAddress() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testFindPropertyByAddress() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         house.setAddress("123 Main St");
@@ -72,7 +82,7 @@ public class CityTest {
     }
 
     @Test
-    public void testFindPropertyByCoordinates() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testFindPropertyByCoordinates() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         city.addProperty(house, 0, 0);
@@ -81,7 +91,7 @@ public class CityTest {
     }
 
     @Test
-    public void testDisplayGrid() throws InvalidPropertyDimensionsException {
+    public void testDisplayGrid() throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         city.addProperty(house, 0, 0);
@@ -90,7 +100,7 @@ public class CityTest {
     }
 
     @Test
-    public void testApartmentBuilding() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testApartmentBuilding() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
         boolean result = city.addProperty(building, 2, 2);
@@ -99,7 +109,7 @@ public class CityTest {
     }
 
     @Test
-    public void testExpandHouse() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testExpandHouse() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         city.addProperty(house, 0, 0);
@@ -110,7 +120,7 @@ public class CityTest {
     }
 
     @Test
-    public void testExpandApartmentBuilding() throws InvalidPropertyDimensionsException, PropertyNotFoundException {
+    public void testExpandApartmentBuilding() throws InvalidPropertyDimensionsException, PropertyNotFoundException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
         city.addProperty(building, 2, 2);
@@ -121,7 +131,7 @@ public class CityTest {
     }
     
     @Test
-    public void testSearchPropertiesEasy() throws InvalidPropertyDimensionsException {
+    public void testSearchPropertiesEasy() throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         ApartmentBuilding building = new ApartmentBuilding("456 Elm St", 500000, 4, 4, null, 2, 2);
         ApartmentBuilding building2 = new ApartmentBuilding("125 Elm St", 300000, 4, 4, null, 2, 2);
@@ -137,7 +147,7 @@ public class CityTest {
     }
 
     @Test
-    public void testSearchPropertiesByStyle() throws InvalidPropertyDimensionsException {
+    public void testSearchPropertiesByStyle() throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         house.setStyle("Victorian");
@@ -155,7 +165,7 @@ public class CityTest {
     }
 
     @Test
-    public void testSearchPropertiesWithMultipleCriteria() throws InvalidPropertyDimensionsException {
+    public void testSearchPropertiesWithMultipleCriteria() throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         City city = new City("TestCity", 10, 10);
         House house = new House("123 Main St", 100000, 2, 2, null);
         house.setStyle("Victorian");

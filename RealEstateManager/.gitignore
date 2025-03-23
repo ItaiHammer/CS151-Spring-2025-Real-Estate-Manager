@@ -17,3 +17,4 @@
 /PropertyNotFoundException.class
 /InvalidPropertyDimensionsException.class
 /PropertyAlreadyExistsException.class
+/InsufficientFundsException.class

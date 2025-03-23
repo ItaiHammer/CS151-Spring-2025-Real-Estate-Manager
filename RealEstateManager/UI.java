@@ -15,7 +15,6 @@ public class UI {
 	private static ArrayList<House> houses;
 	private static ArrayList<ApartmentBuilding> apartmentBuildings;
 	private static ArrayList<Apartment> apartments;
-	private static ArrayList<BankAccount> bankAccounts;
 	private static ArrayList<SearchCriteria> searchCriterias;
 	
 	public static void main(String[] args) {
@@ -29,7 +28,6 @@ public class UI {
 		houses = new ArrayList<House>();
 		apartmentBuildings = new ArrayList<ApartmentBuilding>();
 		apartments = new ArrayList<Apartment>();
-		bankAccounts = new ArrayList<BankAccount>();
 		searchCriterias = new ArrayList<SearchCriteria>();
 		
 		cities.add(new City("defaultCity", 10, 10));
@@ -106,13 +104,10 @@ public class UI {
 			printMenu();
 			command = getInput(scanner, 9);
 		}
-		
-		System.out.println("closing program");
-		
+		System.out.println("closing program");	
 		scanner.close();
-
 	}
-
+	
 	//returns a valid input. Recursively calls itself until a valid input is given.
 	//Also stops if input is "exit", and sets exit to true.
 	private static int getInput(Scanner scanner, int max) {
@@ -140,7 +135,6 @@ public class UI {
 		return i;
 		
 	}
-
 	private static boolean checkIfExit(String input) {
 		input = input.toLowerCase();
 		return input.equals("exit");
@@ -159,8 +153,8 @@ public class UI {
 		System.out.println("8. Apartment");
 		System.out.println("9. SearchCriteria");
 	}
-
 	private static void creatingMenu(Scanner scanner) {
+		System.out.println("Select type to Create:");
 		System.out.println("1. City");
 		System.out.println("2. RealEstateOwner");
 		System.out.println("3. Renter");
@@ -353,7 +347,6 @@ public class UI {
 		}
 		
 	}
-	
 	private static void cityMenu(Scanner scanner) {
 		
 		City selectedCity = selectObject(scanner, cities);
@@ -361,7 +354,7 @@ public class UI {
 			return;
 		}
 		
-		System.out.println("Select Method");
+		System.out.println("Select City Method:");
 		System.out.println("1. addProperty");
 		System.out.println("2. removeProperty");
 		System.out.println("3. displayGrid");
@@ -641,7 +634,6 @@ public class UI {
 		}
 		
 	}
-
 	private static void ownerMenu(Scanner scanner) {
 		RealEstateOwner owner = selectObject(scanner, realEstateOwners);
 		if(owner == null) {
@@ -670,7 +662,13 @@ public class UI {
 				if(agent == null) {
 					return;
 				}
-				owner.buyProperty(realEstate, agent);
+				
+				try {
+					owner.buyProperty(realEstate, agent);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			case 2:
 				realEstate = selectObject(scanner, apartmentBuildings);
@@ -681,7 +679,12 @@ public class UI {
 				if(agent == null) {
 					return;
 				}
-				owner.buyProperty(realEstate, agent);
+				try {
+					owner.buyProperty(realEstate, agent);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			case 3:
 				realEstate = selectObject(scanner, apartments);
@@ -692,7 +695,12 @@ public class UI {
 				if(agent == null) {
 					return;
 				}
-				owner.buyProperty(realEstate, agent);
+				try {
+					owner.buyProperty(realEstate, agent);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			}
 		}
@@ -728,12 +736,12 @@ public class UI {
 			}
 		}
 	}
-	
 	private static void renterMenu(Scanner scanner) {
 		Renter renter = selectObject(scanner, renters);
 		if(renter == null) {
 			return;
 		}
+		System.out.println("Select Renter method:");
 		System.out.println("1. rentProperty");
 		System.out.println("2. payRent");
 		System.out.println("3. terminateLease");
@@ -751,19 +759,36 @@ public class UI {
 				if(realEstate == null) {
 					return;
 				}
-				renter.rentProperty((Rentable)realEstate);
+				try {
+					renter.rentProperty((Rentable)realEstate);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			case 2:
 				realEstate = selectObject(scanner, apartments);
 				if(realEstate == null) {
 					return;
 				}
-				renter.rentProperty((Rentable)realEstate);
+				
+				try {
+					renter.rentProperty((Rentable)realEstate);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			}
 		}
 		if(i==2) {
-			renter.payRent();
+			try {
+				renter.payRent();
+			}
+			catch(InsufficientFundsException e) {
+				System.out.println(e);
+			}
+			
 		}
 		
 		if(i==3) {
@@ -771,12 +796,12 @@ public class UI {
 		}
 		
 	}
-	
 	private static void agentMenu(Scanner scanner) {
 		RealEstateAgent realEstateAgent = selectObject(scanner, realEstateAgents);
 		if(realEstateAgent == null) {
 			return;
 		}
+		System.out.println("Select RealEstateAgent Method:");
 		System.out.println("1. finalizeSale");
 		System.out.println("2. Return to Main Menu");
 		int i = getInput(scanner, 2);
@@ -798,7 +823,13 @@ public class UI {
 				if(buyer == null) {
 					return;
 				}
-				realEstateAgent.finalizeSale(realEstate, buyer);
+				
+				try {
+					realEstateAgent.finalizeSale(realEstate, buyer);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			case 2:
 				realEstate = selectObject(scanner, apartmentBuildings);
@@ -809,7 +840,12 @@ public class UI {
 				if(buyer == null) {
 					return;
 				}
-				realEstateAgent.finalizeSale(realEstate, buyer);
+				try {
+					realEstateAgent.finalizeSale(realEstate, buyer);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			case 3:
 				realEstate = selectObject(scanner, apartments);
@@ -820,7 +856,12 @@ public class UI {
 				if(buyer == null) {
 					return;
 				}
-				realEstateAgent.finalizeSale(realEstate, buyer);
+				try {
+					realEstateAgent.finalizeSale(realEstate, buyer);
+				}
+				catch(InsufficientFundsException e) {
+					System.out.println(e);
+				}
 				break;
 			}
 		}
@@ -831,6 +872,7 @@ public class UI {
 		if(house == null) {
 			return;
 		}
+		System.out.println("Select House Method:");
 		System.out.println("1. expand");
 		System.out.println("2. getRent");
 		System.out.println("3. set");
@@ -887,7 +929,6 @@ public class UI {
 				System.out.println("9. return to Main Menu");
 				j = getInput(scanner, 9);
 				
-				String input;
 				int bool;
 				switch (j) {
 				case 1:
@@ -946,6 +987,8 @@ public class UI {
 		if(apartmentBuilding == null) {
 			return;
 		}
+		
+		System.out.println("Select ApartmentBuilding Method:");
 		System.out.println("1. expand");
 		System.out.println("2. set");
 		System.out.println("3. return to Main Menu");
@@ -998,7 +1041,6 @@ public class UI {
 				System.out.println("9. return to Main Menu");
 				j = getInput(scanner, 9);
 				
-				String input;
 				int bool;
 				switch (j) {
 				case 1:
@@ -1058,6 +1100,7 @@ public class UI {
 		if(apartment == null) {
 			return;
 		}
+		System.out.println("Select Apartment Method:");
 		System.out.println("1. expand");
 		System.out.println("2. getRent");
 		System.out.println("3. set");
@@ -1110,8 +1153,6 @@ public class UI {
 				System.out.println("5. return to Main Menu");
 				j = getInput(scanner, 5);
 				
-				String input;
-				int bool;
 				switch (j) {
 				case 1:
 					apartment.setIsForSale();
@@ -1138,6 +1179,7 @@ public class UI {
 
 	private static void searchCriteriaMenu(Scanner scanner) {
 		SearchCriteria selectedCriteria = selectObject(scanner, searchCriterias);
+		System.out.println("Select SearchCriteria Method Type:");
 		System.out.println("1. get");
 		System.out.println("2. set");
 		System.out.println("3. return to Main Menu");
@@ -1293,4 +1335,3 @@ public class UI {
 	}
 	
 }
-

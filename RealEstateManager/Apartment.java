@@ -23,7 +23,7 @@ public class Apartment extends RealEstate implements Rentable {
     
     //expands the apartment building the apartment is a part of
     @Override
-    public boolean expand(int x, int y) throws InvalidPropertyDimensionsException {
+    public boolean expand(int x, int y) throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
     	return apartmentBuilding.expand(x, y);
     }
     

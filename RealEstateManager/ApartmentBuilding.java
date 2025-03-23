@@ -19,7 +19,7 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
   //saves initial width and height to reset the property if expansion fails
   //can expand to smaller widths or heights (assumes not negative)
     @Override
-    public boolean expand(int x, int y) throws InvalidPropertyDimensionsException {
+    public boolean expand(int x, int y) throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         if (x <= 0 || y <= 0) {
             throw new InvalidPropertyDimensionsException("Invalid dimensions for expanding the apartment building: The new width and height must be positive and within the city's grid limits.");
         }

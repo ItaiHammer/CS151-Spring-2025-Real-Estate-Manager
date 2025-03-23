@@ -109,6 +109,10 @@ public abstract class RealEstate {
         this.topLeftX = x;
         this.topLeftY = y;
     }
+
+    public void resetCity() {
+        city = null;
+    }
     
     public City getCity() {
         return city;
@@ -165,5 +169,5 @@ public abstract class RealEstate {
                 '}';
     }
 
-	public abstract boolean expand(int x, int y) throws InvalidPropertyDimensionsException;
+	public abstract boolean expand(int x, int y) throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException;
 }

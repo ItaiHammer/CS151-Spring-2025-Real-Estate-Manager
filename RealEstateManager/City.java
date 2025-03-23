@@ -1,7 +1,10 @@
 package RealEstateManager;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class City {
     private String name;
@@ -22,10 +25,18 @@ public class City {
         return grid;
     }
 
-    public boolean addProperty(OccupiesLand o, int x, int y) throws InvalidPropertyDimensionsException {
+    public boolean addProperty(OccupiesLand o, int x, int y) throws InvalidPropertyDimensionsException, PropertyAlreadyExistsException {
         RealEstate r = (RealEstate) o;
-        
-        if (x <= 0 || y <= 0) {
+
+        if (r.getCity() != null) {
+            if (r.getCity() == this) {
+                throw new PropertyAlreadyExistsException("Property already exists in this city.");
+            }else {
+                throw new PropertyAlreadyExistsException("Property already exists in another city.");
+            }
+        }
+
+        if (x < 0 || y < 0) {
             throw new InvalidPropertyDimensionsException("Invalid dimensions for adding the property: The width and height must be positive and within the city's grid limits.");
         }
 
@@ -33,7 +44,7 @@ public class City {
         for (int i = x; i < x + r.getWidth(); i++) {
             for (int j = y; j < y + r.getHeight(); j++) {
                 if (grid[i][j].getOccupiedBy() != null) {
-                	throw new InvalidPropertyDimensionsException("Invalid dimensions for adding the property: The new width and height must not overlap another property.");
+                    throw new InvalidPropertyDimensionsException("Invalid dimensions for adding the property: The new width and height must not overlap another property.");
                 }
             }
         }
@@ -64,6 +75,9 @@ public class City {
                     grid[i][j].setOccupiedBy(null);
                 }
             }
+            
+            realEstate.resetCity();
+
             return true;
         } catch (PropertyNotFoundException e) {
             return false;
@@ -76,13 +90,47 @@ public class City {
         return removeProperty(location[0], location[1]);
     }
 
+    private static final String[] COLORS = {
+        "\u001B[31m", // Red
+        "\u001B[32m", // Green
+        "\u001B[33m", // Yellow
+        "\u001B[34m", // Blue
+        "\u001B[35m", // Purple
+        "\u001B[36m", // Cyan
+        "\u001B[37m"  // White
+    };
+
     public void displayGrid() {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].getOccupiedBy() == null) {
-                    System.out.print(" ");
+        Map<OccupiesLand, String> propertyColors = new HashMap<>();
+        AtomicInteger colorIndex = new AtomicInteger(0);
+
+        // Print the x-axis numbers
+        System.out.print("   ");
+        for (int x = 0; x < grid.length; x++) {
+            System.out.print(x + " ");
+        }
+        System.out.println();
+
+        for (int j = 0; j < grid[0].length; j++) {
+            // Print the y-axis number
+            System.out.print(j + " ");
+            if (j < 10) {
+                System.out.print(" ");
+            }
+
+            for (int i = 0; i < grid.length; i++) {
+                OccupiesLand occupiedBy = grid[i][j].getOccupiedBy();
+                if (occupiedBy == null) {
+                    System.out.print("  ");
                 } else {
-                    System.out.print(grid[i][j].getOccupiedBy());
+                    String color = propertyColors.computeIfAbsent(occupiedBy, k -> COLORS[colorIndex.getAndIncrement() % COLORS.length]);
+                    if (occupiedBy instanceof House) {
+                        System.out.print(color + "H\u001B[0m "); // Colored House
+                    } else if (occupiedBy instanceof ApartmentBuilding) {
+                        System.out.print(color + "B\u001B[0m "); // Colored Apartment Building
+                    } else if (occupiedBy instanceof Apartment) {
+                        System.out.print(color + "A\u001B[0m "); // Colored Apartment
+                    }
                 }
             }
             System.out.println();

@@ -24,15 +24,14 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
             throw new InvalidPropertyDimensionsException("Invalid dimensions for expanding the apartment building: The new width and height must be positive and within the city's grid limits.");
         }
         
+        City city = this.getCity();
+        int[] location = this.getLocation();
+        city.removeProperty(location[0], location[1]);
+        
         int oldWidth = getWidth();
         int oldHeight = getHeight();
         this.setWidth(x);
         this.setHeight(y);
-        int[] location = this.getLocation();
-        
-        City city = this.getCity();
-        
-        city.removeProperty(location[0], location[1]);
         
         if (!city.addProperty(this, location[0], location[1])) {
             this.setWidth(oldWidth);
@@ -71,6 +70,7 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     	}
     }
     
+    @Override
     public void setHasYard(boolean hasYard) {
     	super.setHasYard(hasYard);
     	for(Apartment[] aparts: apartments) {
@@ -80,6 +80,7 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     	}
     }
     
+    @Override
     public void setHasPool(boolean hasPool) {
     	super.setHasPool(hasPool);
     	for(Apartment[] aparts: apartments) {
@@ -89,7 +90,7 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     	}
     }
     
-    
+    @Override
     public void setStyle(String style){
     	super.setStyle(style);
     	for(Apartment[] aparts: apartments) {
@@ -99,6 +100,7 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     	}
     }
     
+    @Override
     public void setLocation(int x, int y){
     	super.setLocation(x, y);
     	for(Apartment[] aparts: apartments) {
@@ -107,7 +109,6 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
     		}
     	}
     }
-    
     
     public Apartment getApartment(int floor, int unit) {
     	return apartments[floor][unit];

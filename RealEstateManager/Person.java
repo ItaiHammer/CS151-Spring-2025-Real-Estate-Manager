@@ -27,6 +27,7 @@ abstract class Person {
     }
 
     public String toString() {
-        return "";
+        return "Person{"+ 
+                "name=" + name + super.toString() + "}";
     }
 }

@@ -16,7 +16,12 @@ public class BankAccount {
         balance += amount;
     }
 
-    public void withdraw(double amount) {
-        balance -= amount;
+    public void withdraw(double amount) throws InsufficientFundsException {
+        if(balance < amount) {
+            throw new InsufficientFundsException("Insufficient funds! Please find a transcaction within your budget.");
+        }
+        else {
+            balance -= amount;
+        }
     }
 }

@@ -74,4 +74,16 @@ public class SearchCriteria {
     public void setStyle(String style) {
         this.style = style;
     }
+
+    public String toString() {
+        return "SearchCriteria{" + 
+                "maxPrice =" + maxPrice +
+                ", minSize=" + minSize +
+                ", forSale=" + forSale +
+                ", forRent=" + forRent +
+                ", hasYard=" + hasYard +
+                ", hasPool=" + hasPool +
+                ", style=" + style +
+                "}";
+    }
 }

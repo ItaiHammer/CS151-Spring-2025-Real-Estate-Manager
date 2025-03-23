@@ -9,9 +9,16 @@ public class RealEstateAgent {
         this.person = person;
     }
 
-    public void finalizeSale(RealEstate property, RealEstateOwner buyer) {
+    public void finalizeSale(RealEstate property, RealEstateOwner buyer) throws InsufficientFundsException {
         buyer.getBank().withdraw(property.getPrice());
         property.getOwner().getBank().deposit((1 - commissionRate)* property.getPrice());
         person.getBank().deposit(commissionRate * property.getPrice());
+    }
+
+    public String toString() {
+        return "RealEstateAgent{" + 
+                "name=" + person.getName() + 
+                ", commissionRate=" + commissionRate +  
+                "}";
     }
 }

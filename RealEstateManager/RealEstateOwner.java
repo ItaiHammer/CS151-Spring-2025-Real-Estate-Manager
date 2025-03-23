@@ -14,7 +14,7 @@ public class RealEstateOwner extends Person {
         return properties;
     }
 
-    public void buyProperty(RealEstate property, RealEstateAgent agent) {
+    public void buyProperty(RealEstate property, RealEstateAgent agent) throws InsufficientFundsException{
         agent.finalizeSale(property, this);
         properties.add(property);
         property.setOwner(this);
@@ -25,6 +25,9 @@ public class RealEstateOwner extends Person {
     }
 
     public String toString() {
-        return "";
+        return "RealEstateOwner{" + 
+                "Number of properties: " + properties.size() + 
+                super.toString() + 
+                "}";
     }
 }

@@ -1,28 +1,32 @@
 package RealEstateManager;
 
 public class Renter extends Person {
-    private Rentable property;
+    private Rentable rentedProperty;
 
     public Renter(String name) {
         super(name);
     }
-    public void rentProperty(Apartment apartment) {
-        apartment.setRenter(this);
-        this.property = apartment;              
+    public void rentProperty(Rentable property) throws InsufficientFundsException {
+        RealEstate p = (RealEstate)property;
+        p.setRenter(this);
+        rentedProperty = property;              
         payRent();
     }
 
-    public void payRent() {
-        getBank().withdraw(property.getRent());
-        ((RealEstate)property).getOwner().getBank().deposit(property.getRent());
+    public void payRent() throws InsufficientFundsException{
+        getBank().withdraw(rentedProperty.getRent());
+        ((RealEstate)rentedProperty).getOwner().getBank().deposit(rentedProperty.getRent());
     }
     
     public void terminateLease() {
-        ((RealEstate)property).setRenter(null);
-        this.property = null;
+        ((RealEstate)rentedProperty).setRenter(null);
+        this.rentedProperty = null;
     }
 
     public String toString() {
-        return "";
+        return "Renter{" + 
+                "rentedProperty=" + rentedProperty + 
+                super.toString() + 
+                "}";
     }
 }

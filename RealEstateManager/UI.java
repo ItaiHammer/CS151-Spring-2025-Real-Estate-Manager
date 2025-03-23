@@ -1,7 +1,9 @@
 package RealEstateManager;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
 public class UI {
 	
@@ -14,6 +16,7 @@ public class UI {
 	private static ArrayList<ApartmentBuilding> apartmentBuildings;
 	private static ArrayList<Apartment> apartments;
 	private static ArrayList<BankAccount> bankAccounts;
+	private static ArrayList<SearchCriteria> searchCriterias;
 	
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
@@ -27,9 +30,14 @@ public class UI {
 		apartmentBuildings = new ArrayList<ApartmentBuilding>();
 		apartments = new ArrayList<Apartment>();
 		bankAccounts = new ArrayList<BankAccount>();
+		searchCriterias = new ArrayList<SearchCriteria>();
+		
+		cities.add(new City("defaultCity", 10, 10));
+		realEstateOwners.add(new RealEstateOwner("defaultOwner"));
+		searchCriterias.add(new SearchCriteria());
 		
 		printMenu();
-		command = getInput(scanner, 8);
+		command = getInput(scanner, 9);
 		
 		
 		while(!exit) {
@@ -40,7 +48,6 @@ public class UI {
 				System.out.println("Creating");
 				System.out.println("--------\n");
 				creatingMenu(scanner);
-				System.out.println("done creating");
 				break;
 			
 			case 2: 
@@ -56,31 +63,36 @@ public class UI {
 				break;
 			
 			case 4: 
-				System.out.println("Renter");
+				System.out.println("Renter method");
 				System.out.println("--------\n");
 				renterMenu(scanner);
 				break;
 			
 			case 5: 
-				System.out.println("RealEstateAgent");
+				System.out.println("RealEstateAgent method");
 				System.out.println("--------\n");
 				agentMenu(scanner);
 				break;
 			
 			case 6: 
-				System.out.println("House");
+				System.out.println("House method");
 				System.out.println("--------\n");
 				houseMenu(scanner);
 				break;
 			case 7: 
-				System.out.println("ApartmentBuilding");
+				System.out.println("ApartmentBuilding method");
 				System.out.println("--------\n");
 				apartmentBuildingMenu(scanner);
 				break;
 			case 8: 
-				System.out.println("Apartment");
+				System.out.println("Apartment method");
 				System.out.println("--------\n");
 				apartmentMenu(scanner);
+				break;
+			case 9: 
+				System.out.println("SearchCriteria method");
+				System.out.println("--------\n");
+				searchCriteriaMenu(scanner);
 				break;
 			default:
 				System.out.println("error: how did this happen");
@@ -92,7 +104,7 @@ public class UI {
 			}
 			System.out.println();
 			printMenu();
-			command = getInput(scanner, 8);
+			command = getInput(scanner, 9);
 		}
 		
 		System.out.println("closing program");
@@ -100,7 +112,6 @@ public class UI {
 		scanner.close();
 
 	}
-
 
 
 	//returns a valid input. Recursively calls itself until a valid input is given.
@@ -136,12 +147,7 @@ public class UI {
 
 	private static boolean checkIfExit(String input) {
 		input = input.toLowerCase();
-		if(input.equals("exit")) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return input.equals("exit");
 	}
 	
 	private static void printMenu() {
@@ -155,8 +161,7 @@ public class UI {
 		System.out.println("6. House");
 		System.out.println("7. ApartmentBuilding");
 		System.out.println("8. Apartment");
-		
-		
+		System.out.println("9. SearchCriteria");
 	}
 
 	private static void creatingMenu(Scanner scanner) {
@@ -166,8 +171,9 @@ public class UI {
 		System.out.println("4. RealEstateAgent");
 		System.out.println("5. House");
 		System.out.println("6. ApartmentBuilding");
-		System.out.println("7. return to main Menu");
-		int command = getInput(scanner, 7);
+		System.out.println("7. SearchCriteria");
+		System.out.println("8. return to main Menu");
+		int command = getInput(scanner, 8);
 		if(exit) {
 			return;
 		}
@@ -337,8 +343,12 @@ public class UI {
 			}
 			scanner.nextLine();
 			break;
-			
-		case 7: 
+		
+		case 7:
+			System.out.println("New SearchCriteria created");
+			searchCriterias.add(new SearchCriteria());
+			break;
+		case 8: 
 			System.out.println("returning to main menu");
 			break;
 		default:
@@ -380,25 +390,92 @@ public class UI {
 			
 			System.out.println("Input location in the following format: ");
 			System.out.println("\nx\ny");
+			String input;
 			try {
-				int x = scanner.nextInt();
+				input = scanner.nextLine();
+				exit = checkIfExit(input);
+				if(exit) {
+					return;
+				}
+				int x = Integer.parseInt(input);
+				if(x < 0) {
+					throw new Exception();
+				}
 				
-				int y = scanner.nextInt();
-				scanner.nextLine();
-				
+				input = scanner.nextLine();
+				exit = checkIfExit(input);
+				if(exit) {
+					return;
+				}
+				int y = Integer.parseInt(input);
+				if(y < 0) {
+					throw new Exception();
+				}
 				if(i == 1) {
-					House house = selectObject(scanner, houses);
+					if(houses.size() == 0) {
+						System.out.println("Need to create a house first. Returning to main menu");
+						break;
+					}
+					int size = houses.size();
+					System.out.println("select index of house:");
+					int k;
+					int j = 1;
+					int[] convertIndex = new int[size+1];
+					for(k = 0; k<size; k++) {
+						if(houses.get(k).getCity()==null) {
+							System.out.println(j + ": " + houses.get(k));
+							convertIndex[j] = k;
+							j++;
+						}
+					}
+					if(j == 1) {
+						System.out.println("no houses available");
+						break;
+					}
+					j = getInput(scanner, j-1);
+					if(j == 0) { //fix for exit
+						break;
+					}
+					House house = houses.get(convertIndex[j]);
 					selectedCity.addProperty(house, x, y);
 				}
 				else if(i == 2) {
-					ApartmentBuilding apartmentBuilding = selectObject(scanner, apartmentBuildings);
+					if(apartmentBuildings.size() == 0) {
+						System.out.println("Need to create a apartmentBuilding first. Returning to main menu");
+						break;
+					}
+					int size = apartmentBuildings.size();
+					System.out.println("select index of apartmentBuilding:");
+					int k;
+					int j = 1;
+					int[] convertIndex = new int[size+1];
+					for(k = 0; k<size; k++) {
+						if(apartmentBuildings.get(k).getCity()==null) {
+							System.out.println(j + ": " + apartmentBuildings.get(k));
+							convertIndex[j] = k;
+							j++;
+						}
+					}
+					if(j == 1) {
+						System.out.println("no apartmentBuildings available");
+						break;
+					}
+					j = getInput(scanner, j-1);
+					if(j == 0) { //fix for exit
+						break;
+					}
+					ApartmentBuilding apartmentBuilding = apartmentBuildings.get(convertIndex[j]);
 					selectedCity.addProperty(apartmentBuilding, x, y);
 				}
 				
 			}
-			catch (Exception e){
-				System.out.println("create failed. Invalid x or y");
+			catch (InvalidPropertyDimensionsException e){
+				System.out.println(e);
 			}
+			catch (Exception e){
+				System.out.println("Failed. An invalid integer was given");
+			}
+			
 			break;
 		
 		case 2: 
@@ -408,6 +485,9 @@ public class UI {
 		
 		case 3: 
 			selectedCity.displayGrid();
+			System.out.println("hit enter/return to continue to main Menu");
+			scanner.nextLine();
+			
 			break;
 		
 		case 4: 
@@ -442,8 +522,13 @@ public class UI {
 			break;
 		
 		case 5: 
-			System.out.println("searchProperties");
-			//todo
+			System.out.println("searching Properties");
+			SearchCriteria sc = selectObject(scanner, searchCriterias);
+			Set<RealEstate> validEstates = selectedCity.searchProperties(sc);
+			Iterator iterator = validEstates.iterator();
+			while(iterator.hasNext()) {
+				System.out.println(iterator.next());
+			}
 			break;
 		
 		case 6: 
@@ -504,7 +589,134 @@ public class UI {
 	}
 
 
-
+	private static void searchCriteriaMenu(Scanner scanner) {
+		SearchCriteria selectedCriteria = selectObject(scanner, searchCriterias);
+		System.out.println("1. get");
+		System.out.println("2. set");
+		System.out.println("3. return to main menu ");
+		int i = getInput(scanner, 3);
+		int j;
+		
+		if(i == 1) {
+			System.out.println("1. maxPrice");
+			System.out.println("2. minSize");
+			System.out.println("3. forSale");
+			System.out.println("4. forRent");
+			System.out.println("5. hasYard");
+			System.out.println("6. hasPool");
+			System.out.println("7. style");
+			j = getInput(scanner, 7);
+			
+			switch (j) {
+			case 1:
+				System.out.println(selectedCriteria.getMaxPrice());
+			case 2:
+				System.out.println(selectedCriteria.getMinSize());
+			case 3:
+				System.out.println(selectedCriteria.getForSale());
+			case 4:
+				System.out.println(selectedCriteria.getForRent());
+			case 5:
+				System.out.println(selectedCriteria.getHasYard());
+			case 6:
+				System.out.println(selectedCriteria.getHasPool());
+			case 7:
+				System.out.println(selectedCriteria.getStyle());
+			}
+		}
+		if(i == 2) {
+			boolean repeat = true;
+			while(repeat) {
+				System.out.println("1. maxPrice");
+				System.out.println("2. minSize");
+				System.out.println("3. forSale");
+				System.out.println("4. forRent");
+				System.out.println("5. hasYard");
+				System.out.println("6. hasPool");
+				System.out.println("7. style");
+				System.out.println("8. return to main menu");
+				j = getInput(scanner, 8);
+				
+				String input;
+				int bool;
+				switch (j) {
+				case 1:
+					System.out.println("give MaxPrice:");
+					input = scanner.nextLine();
+					exit = checkIfExit(input);
+					if(exit) {
+						return;
+					}
+					try {
+						double price = Double.parseDouble(input);
+						if(price < 0) {
+							throw new Exception();
+						}
+						selectedCriteria.setMaxPrice(price);
+					}
+					catch (Exception e){
+						System.out.println("not a valid double");
+					}
+					break;
+					
+					
+				case 2:
+					System.out.println("give minSize:");
+					input = scanner.nextLine();
+					exit = checkIfExit(input);
+					if(exit) {
+						return;
+					}
+					try {
+						int size = Integer.parseInt(input);
+						if(size <= 0) {
+							throw new Exception();
+						}
+						selectedCriteria.setMinSize(size);
+					}
+					catch (Exception e){
+						System.out.println("not a valid int");
+					}
+					break;
+				case 3:
+					System.out.println("set ForSale true(1) or false(2):");
+					bool = getInput(scanner, 2);
+					selectedCriteria.setForSale(bool==1);
+					break;
+					
+				case 4:
+					System.out.println("set ForRent true(1) or false(2):");
+					bool = getInput(scanner, 2);
+					selectedCriteria.setForRent(bool==1);
+					break;
+				case 5:
+					System.out.println("set hasYard true(1) or false(2):");
+					bool = getInput(scanner, 2);
+					selectedCriteria.setHasYard(bool==1);
+					break;
+				case 6:
+					System.out.println("set HasPool true(1) or false(2):");
+					bool = getInput(scanner, 2);
+					selectedCriteria.setHasPool(bool==1);
+					break;
+				case 7:
+					System.out.println("give Style:");
+					String style = scanner.nextLine();
+					exit = checkIfExit(style);
+					if(exit) {
+						return;
+					}
+					selectedCriteria.setStyle(style);
+					break;
+				case 8:
+					repeat = false;
+					break;
+					
+				}
+				
+			}
+		}
+	}
 
 	private static <T> T selectObject(Scanner scanner, ArrayList<T> list) {
 		if(list.size() == 0) {

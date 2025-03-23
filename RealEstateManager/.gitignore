@@ -16,3 +16,4 @@
 /UI.class
 /PropertyNotFoundException.class
 /InvalidPropertyDimensionsException.class
+/PropertyAlreadyExistsException.class

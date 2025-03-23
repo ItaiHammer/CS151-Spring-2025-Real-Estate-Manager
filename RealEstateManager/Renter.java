@@ -25,8 +25,8 @@ public class Renter extends Person {
 
     public String toString() {
         return "Renter{" + 
-                "rentedProperty=" + rentedProperty + 
-                super.toString() + 
+                "rentedProperty= " + rentedProperty + 
+                " " + super.toString() + 
                 "}";
     }
 }

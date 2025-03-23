@@ -26,8 +26,8 @@ public class RealEstateOwner extends Person {
 
     public String toString() {
         return "RealEstateOwner{" + 
-                "Number of properties: " + properties.size() + 
-                super.toString() + 
+                "Number of properties= " + properties.size() + 
+                " " + super.toString() + 
                 "}";
     }
 }

@@ -17,8 +17,8 @@ public class RealEstateAgent {
 
     public String toString() {
         return "RealEstateAgent{" + 
-                "name=" + person.getName() + 
-                ", commissionRate=" + commissionRate +  
+                "name= " + person.getName() + 
+                ", commissionRate= " + commissionRate +  
                 "}";
     }
 }

@@ -647,12 +647,127 @@ public class UI {
 		if(owner == null) {
 			return;
 		}
+		
+		System.out.println("1. buyProperty");
+		System.out.println("2. terminateContract");
+		System.out.println("3. Return to Main Menu");
+		int i = getInput(scanner, 3);
+		if(i==1) {
+			System.out.println("Select property:");
+			System.out.println("1. House");
+			System.out.println("2. ApartmentBuilding");
+			System.out.println("3. Apartment");
+			int type = getInput(scanner, 3);
+			RealEstate realEstate;
+			RealEstateAgent agent;
+			switch (type) {
+			case 1:
+				realEstate = selectObject(scanner, houses);
+				if(realEstate == null) {
+					return;
+				}
+				agent = selectObject(scanner, realEstateAgents);
+				if(agent == null) {
+					return;
+				}
+				owner.buyProperty(realEstate, agent);
+				break;
+			case 2:
+				realEstate = selectObject(scanner, apartmentBuildings);
+				if(realEstate == null) {
+					return;
+				}
+				agent = selectObject(scanner, realEstateAgents);
+				if(agent == null) {
+					return;
+				}
+				owner.buyProperty(realEstate, agent);
+				break;
+			case 3:
+				realEstate = selectObject(scanner, apartments);
+				if(realEstate == null) {
+					return;
+				}
+				agent = selectObject(scanner, realEstateAgents);
+				if(agent == null) {
+					return;
+				}
+				owner.buyProperty(realEstate, agent);
+				break;
+			}
+		}
+		if(i==2) {
+			System.out.println("Select property:");
+			System.out.println("1. House");
+			System.out.println("2. ApartmentBuilding");
+			System.out.println("3. Apartment");
+			int type = getInput(scanner, 3);
+			RealEstate realEstate;
+			switch (type) {
+			case 1:
+				realEstate = selectObject(scanner, houses);
+				if(realEstate == null) {
+					return;
+				}
+				owner.terminateContract(realEstate);
+				break;
+			case 2:
+				realEstate = selectObject(scanner, apartmentBuildings);
+				if(realEstate == null) {
+					return;
+				}
+				owner.terminateContract(realEstate);
+				break;
+			case 3:
+				realEstate = selectObject(scanner, apartments);
+				if(realEstate == null) {
+					return;
+				}
+				owner.terminateContract(realEstate);
+				break;
+			}
+		}
 	}
 	
 	private static void renterMenu(Scanner scanner) {
 		Renter renter = selectObject(scanner, renters);
 		if(renter == null) {
 			return;
+		}
+		System.out.println("1. rentProperty");
+		System.out.println("2. payRent");
+		System.out.println("3. terminateLease");
+		System.out.println("4. Return to Main Menu");
+		int i = getInput(scanner, 4);
+		if(i==1) {
+			System.out.println("Select property:");
+			System.out.println("1. House");
+			System.out.println("2. Apartment");
+			int type = getInput(scanner, 2);
+			RealEstate realEstate;
+			switch (type) {
+			case 1:
+				realEstate = selectObject(scanner, houses);
+				if(realEstate == null) {
+					return;
+				}
+				renter.rentProperty((Rentable)realEstate);
+				break;
+			case 2:
+				realEstate = selectObject(scanner, apartments);
+				if(realEstate == null) {
+					return;
+				}
+				renter.rentProperty((Rentable)realEstate);
+				break;
+			}
+		}
+		if(i==2) {
+			renter.payRent();
+		}
+		
+		if(i==3) {
+			renter.terminateLease();
 		}
 		
 	}
@@ -662,7 +777,53 @@ public class UI {
 		if(realEstateAgent == null) {
 			return;
 		}
-		
+		System.out.println("1. finalizeSale");
+		System.out.println("2. Return to Main Menu");
+		int i = getInput(scanner, 2);
+		if(i==1) {
+			System.out.println("Select property:");
+			System.out.println("1. House");
+			System.out.println("2. ApartmentBuilding");
+			System.out.println("3. Apartment");
+			int type = getInput(scanner, 3);
+			RealEstate realEstate;
+			RealEstateOwner buyer;
+			switch (type) {
+			case 1:
+				realEstate = selectObject(scanner, houses);
+				if(realEstate == null) {
+					return;
+				}
+				buyer = selectObject(scanner, realEstateOwners);
+				if(buyer == null) {
+					return;
+				}
+				realEstateAgent.finalizeSale(realEstate, buyer);
+				break;
+			case 2:
+				realEstate = selectObject(scanner, apartmentBuildings);
+				if(realEstate == null) {
+					return;
+				}
+				buyer = selectObject(scanner, realEstateOwners);
+				if(buyer == null) {
+					return;
+				}
+				realEstateAgent.finalizeSale(realEstate, buyer);
+				break;
+			case 3:
+				realEstate = selectObject(scanner, apartments);
+				if(realEstate == null) {
+					return;
+				}
+				buyer = selectObject(scanner, realEstateOwners);
+				if(buyer == null) {
+					return;
+				}
+				realEstateAgent.finalizeSale(realEstate, buyer);
+				break;
+			}
+		}
 	}
 	
 	private static void houseMenu(Scanner scanner) {

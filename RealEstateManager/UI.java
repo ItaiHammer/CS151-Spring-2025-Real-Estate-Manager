@@ -670,7 +670,6 @@ public class UI {
 					System.out.println(e);
 				}
 				break;
-				break;
 			case 2:
 				realEstate = selectObject(scanner, apartmentBuildings);
 				if(realEstate == null) {

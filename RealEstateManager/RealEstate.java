@@ -118,10 +118,6 @@ public abstract class RealEstate {
         return city;
     }
 
-    public void setForRent(boolean forRent) {
-        this.forRent = forRent;
-    }
-
     public boolean hasYard() {
         return hasYard;
     }

@@ -18,15 +18,14 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
             throw new InvalidPropertyDimensionsException("Invalid dimensions for expanding the house: The new width and height must be positive and within the city's grid limits.");
         }
         
+    	City city = this.getCity();
+        int[] location = this.getLocation();
+        city.removeProperty(location[0], location[1]);
+        
         int oldWidth = getWidth();
         int oldHeight = getHeight();
         this.setWidth(x);
         this.setHeight(y);
-        int[] location = this.getLocation();
-    	
-    	City city = this.getCity();
-    	
-    	city.removeProperty(location[0], location[1]);
     	
     	if(!city.addProperty(this, location[0], location[1])) {
     		this.setWidth(oldWidth);
@@ -40,7 +39,7 @@ public class House extends RealEstate implements OccupiesLand, Rentable {
     
     @Override
     public double getRent() {
-    	return this.getPrice()/100;
+    	return (0.0+Math.round(this.getPrice()))/100;
     }
     @Override
     public String toString() {

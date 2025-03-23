@@ -41,14 +41,73 @@ public class ApartmentBuilding extends RealEstate implements OccupiesLand {
             throw new InvalidPropertyDimensionsException("Invalid dimensions for expanding the apartment building: The new width and height must not overlap another property.");
         }
         
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setWidth(x);
+    			a.setHeight(y);
+    		}
+    	}
         return true;
     }
     
-    //can't be rented
+    //setter should also change apartment
     @Override
-    public void setIsForRent() {
-    	return;
+    public void setCity(City city)  {
+    	super.setCity(city);
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setCity(city);
+    		}
+    	}
     }
+    
+    @Override
+    public void setAddress(String address)  {
+    	super.setAddress(address);
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setAddress(address);
+    		}
+    	}
+    }
+    
+    public void setHasYard(boolean hasYard) {
+    	super.setHasYard(hasYard);
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setHasYard(hasYard);
+    		}
+    	}
+    }
+    
+    public void setHasPool(boolean hasPool) {
+    	super.setHasPool(hasPool);
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setHasPool(hasPool);
+    		}
+    	}
+    }
+    
+    
+    public void setStyle(String style){
+    	super.setStyle(style);
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setStyle(style);
+    		}
+    	}
+    }
+    
+    public void setLocation(int x, int y){
+    	super.setLocation(x, y);
+    	for(Apartment[] aparts: apartments) {
+    		for(Apartment a: aparts) {
+    			a.setLocation(x, y);
+    		}
+    	}
+    }
+    
     
     public Apartment getApartment(int floor, int unit) {
     	return apartments[floor][unit];

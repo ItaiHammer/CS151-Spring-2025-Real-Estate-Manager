@@ -113,7 +113,6 @@ public class UI {
 
 	}
 
-
 	//returns a valid input. Recursively calls itself until a valid input is given.
 	//Also stops if input is "exit", and sets exit to true.
 	private static int getInput(Scanner scanner, int max) {
@@ -141,9 +140,6 @@ public class UI {
 		return i;
 		
 	}
-
-
-
 
 	private static boolean checkIfExit(String input) {
 		input = input.toLowerCase();
@@ -357,7 +353,6 @@ public class UI {
 		}
 		
 	}
-	
 	
 	private static void cityMenu(Scanner scanner) {
 		
@@ -669,13 +664,122 @@ public class UI {
 		}
 		
 	}
+	
 	private static void houseMenu(Scanner scanner) {
 		House house = selectObject(scanner, houses);
 		if(house == null) {
 			return;
 		}
+		System.out.println("1. expand");
+		System.out.println("2. getRent");
+		System.out.println("3. set");
+		System.out.println("4. return to Main Menu");
+		int i = getInput(scanner, 4);
+		int j;
 		
+		if(i == 1) {
+			try {
+				System.out.println("give the following:\nx\ny");
+				String input;
+				input = scanner.nextLine();
+				int x = Integer.parseInt(input);
+				if(x < 0) {
+					throw new Exception();
+				}
+				
+				input = scanner.nextLine();
+				exit = checkIfExit(input);
+				if(exit) {
+					return;
+				}
+				int y = Integer.parseInt(input);
+				if(y < 0) {
+					throw new Exception();
+				}
+				house.expand(x, y);
+			}
+			catch (InvalidPropertyDimensionsException e) {
+				System.out.println(e);
+			}
+			catch (PropertyAlreadyExistsException e) {
+				System.out.println(e);
+			}
+			catch (Exception e) {
+				System.out.println("expand failed. Returning to Main Menu");
+			}
+		}
+		if(i == 2) {
+			System.out.println("This house's rent is $" + house.getRent());
+		}
+		if(i == 3) {
+			boolean repeat = true;
+			while(repeat) {
+				System.out.println("Select an option\n--------");
+				System.out.println("1. setIsForSale");
+				System.out.println("2. setNotForSale");
+				System.out.println("3. setIsForRent");
+				System.out.println("4. setNotForRent");
+				System.out.println("5. setAddress");
+				System.out.println("6. setHasYard");
+				System.out.println("7. setHasPool");
+				System.out.println("8. setStyle");
+				System.out.println("9. return to Main Menu");
+				j = getInput(scanner, 9);
+				
+				String input;
+				int bool;
+				switch (j) {
+				case 1:
+					house.setIsForSale();
+					break;
+					
+					
+				case 2:
+					house.setNotForSale();
+					break;
+				case 3:
+					house.setIsForRent();
+					break;
+					
+				case 4:
+					house.setNotForRent();
+					break;
+				case 5:
+					System.out.println("give new address:");
+					String address = scanner.nextLine();
+					exit = checkIfExit(address);
+					if(exit) {
+						return;
+					}
+					house.setStyle(address);
+					break;
+				case 6:
+					System.out.println("set hasYard true(1) or false(2):");
+					bool = getInput(scanner, 2);
+					house.setHasYard(bool==1);
+					break;
+				case 7:
+					System.out.println("set HasPool true(1) or false(2):");
+					bool = getInput(scanner, 2);
+					house.setHasPool(bool==1);
+					break;
+				case 8:
+					System.out.println("give Style:");
+					String style = scanner.nextLine();
+					exit = checkIfExit(style);
+					if(exit) {
+						return;
+					}
+					house.setStyle(style);
+					break;
+				case 9:
+					repeat = false;
+					break;
+				}
+			}
+		}
 	}
+	
 	private static void apartmentBuildingMenu(Scanner scanner) {
 		ApartmentBuilding apartmentBuilding = selectObject(scanner, apartmentBuildings);
 		if(apartmentBuilding == null) {
@@ -690,7 +794,6 @@ public class UI {
 			return;
 		}
 	}
-
 
 	private static void searchCriteriaMenu(Scanner scanner) {
 		SearchCriteria selectedCriteria = selectObject(scanner, searchCriterias);

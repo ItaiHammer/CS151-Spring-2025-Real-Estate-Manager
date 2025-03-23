@@ -29,7 +29,7 @@ public class Apartment extends RealEstate implements Rentable {
     
     @Override
     public double getRent() {
-    	return this.getPrice()/100;
+    	return (0.0+Math.round(this.getPrice()))/100;
     }
     
     @Override

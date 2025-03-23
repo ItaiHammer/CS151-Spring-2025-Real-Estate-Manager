@@ -10,8 +10,12 @@ public class RealEstateOwner extends Person {
         properties = new ArrayList<RealEstate>();
     }
 
-    private ArrayList<RealEstate> propertiesOwned() {
+    public ArrayList<RealEstate> propertiesOwned() {
         return properties;
+    }
+
+    public void addProperty(RealEstate property) {
+        properties.add(property);
     }
 
     public void buyProperty(RealEstate property, RealEstateAgent agent) throws InsufficientFundsException{
@@ -21,7 +25,12 @@ public class RealEstateOwner extends Person {
     }
 
     public void terminateContract(RealEstate property) {
-        property.getRenter().terminateLease();
+        if(property.getRenter() == null) {
+            System.out.println("Terminate failed: no renter.");
+        }
+        else {
+            property.getRenter().terminateLease();
+        }
     }
 
     public String toString() {

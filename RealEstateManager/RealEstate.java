@@ -26,6 +26,7 @@ public abstract class RealEstate {
         this.hasYard = false;
         this.hasPool = false;
         this.style = "unknown";
+        owner.addProperty(this);
     }
 
     public void setOwner(RealEstateOwner owner) {

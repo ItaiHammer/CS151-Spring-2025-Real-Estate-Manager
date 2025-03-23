@@ -706,34 +706,11 @@ public class UI {
 		}
 		if(i==2) {
 			System.out.println("Select property:");
-			System.out.println("1. House");
-			System.out.println("2. ApartmentBuilding");
-			System.out.println("3. Apartment");
-			int type = getInput(scanner, 3);
-			RealEstate realEstate;
-			switch (type) {
-			case 1:
-				realEstate = selectObject(scanner, houses);
-				if(realEstate == null) {
-					return;
-				}
-				owner.terminateContract(realEstate);
-				break;
-			case 2:
-				realEstate = selectObject(scanner, apartmentBuildings);
-				if(realEstate == null) {
-					return;
-				}
-				owner.terminateContract(realEstate);
-				break;
-			case 3:
-				realEstate = selectObject(scanner, apartments);
-				if(realEstate == null) {
-					return;
-				}
-				owner.terminateContract(realEstate);
-				break;
+			RealEstate realEstate = selectObject(scanner, owner.propertiesOwned());
+			if(realEstate == null) {
+    			return;
 			}
+			owner.terminateContract(realEstate);
 		}
 	}
 	private static void renterMenu(Scanner scanner) {
